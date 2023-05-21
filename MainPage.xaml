@@ -22,7 +22,6 @@
                HorizontalTextAlignment="End"
                VerticalOptions="CenterAndExpand" />
 
-        <!-- Botones de números -->
         <Grid ColumnSpacing="10" RowSpacing="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -40,7 +39,7 @@
 
             <Button Text="AC" Command="{Binding ClearButtonCommand}" 
                     Grid.Row="0" Grid.Column="0"/>
-            <Button Text="borrar" Command="{Binding ClearButtonCommand}"
+            <Button Text="borrar" Command="{Binding DeleteButtonCommand}"
                     Grid.Row="0" Grid.Column="1"/>
             <Button Text="%" Command="{Binding ClearButtonCommand}" CommandParameter="%"
                     Grid.Row="0" Grid.Column="2"/>
