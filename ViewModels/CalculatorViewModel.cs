@@ -1,19 +1,30 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace Calculadora.ViewModels
 {
     public class CalculatorViewModel : BindableObject
     {
-        private string currentNumber = "";
-        private string operation = "";
+        private string currentResult = "0";
+        private string currentOperation = "";
+        private string mathSymbol = "";
         private double result = 0;
 
-        public string CurrentNumber
+        public string CurrentResult
         {
-            get { return currentNumber; }
+            get { return currentResult; }
             set
             {
-                currentNumber = value;
+                currentResult = value;
+                OnPropertyChanged();
+            }
+        }
+        public string CurrentOperation
+        {
+            get { return currentOperation; }
+            set
+            {
+                currentOperation = value;
                 OnPropertyChanged();
             }
         }
@@ -33,58 +44,115 @@ namespace Calculadora.ViewModels
 
         private void OnNumberButtonClicked(string number)
         {
-            if (currentNumber == "0" && number != ".")
+            if (currentOperation == "0" && number != ".")
             {
-                currentNumber = "";
+                currentOperation = "";
             }
+            currentOperation += " " + number;
+            CurrentOperation = currentOperation;
 
-            currentNumber += number;
-            CurrentNumber = currentNumber;
         }
 
         private void OnOperatorButtonClicked(string op)
         {
-            if (!string.IsNullOrEmpty(currentNumber))
+            if (!string.IsNullOrEmpty(currentOperation))
             {
-                operation = op;
-                result = double.Parse(currentNumber);
-                currentNumber = "";
+                mathSymbol = op;
+                currentOperation += " " + mathSymbol;
+                CurrentOperation = currentOperation;
             }
         }
 
         private void OnEqualButtonClicked()
         {
-            if (!string.IsNullOrEmpty(currentNumber) && !string.IsNullOrEmpty(operation))
+            if (!string.IsNullOrEmpty(currentOperation))
             {
-                double secondNumber = double.Parse(currentNumber);
-                switch (operation)
-                {
-                    case "+":
-                        result += secondNumber;
-                        break;
-                    case "-":
-                        result -= secondNumber;
-                        break;
-                    case "×":
-                        result *= secondNumber;
-                        break;
-                    case "÷":
-                        result /= secondNumber;
-                        break;
-                }
-
-                currentNumber = result.ToString();
-                CurrentNumber = currentNumber;
-                operation = "";
+                result = Calculate(currentOperation.Split(" ").ToList());
+             
+                currentResult = result.ToString();
+                CurrentResult = currentResult;
+                mathSymbol = "";
             }
         }
 
         private void OnClearButtonClicked()
         {
-            currentNumber = "";
-            operation = "";
+            currentResult = "";
+            currentOperation = "";
             result = 0;
-            CurrentNumber = "0";
+            CurrentResult = "0";
+            CurrentOperation = "";
+        }
+
+        public static double Calculate(List<string> operation)
+        {
+            Stack<double> numbers = new Stack<double>();
+            Stack<string> operators = new Stack<string>();
+            operation.RemoveAt(0);
+            foreach (string element in operation)
+            {
+                if (IsNumber(element))
+                {
+                    numbers.Push(Convert.ToDouble(element));
+                }
+                else
+                {
+                    while (operators.Count > 0 && HaveMorePriority(element, operators.Peek()))
+                    {
+                        double segundoNumero = numbers.Pop();
+                        double primerNumero = numbers.Pop();
+                        string operador = operators.Pop();
+                        double resultadoOperacion = RealizarOperacion(primerNumero, operador, segundoNumero);
+                        numbers.Push(resultadoOperacion);
+                    }
+
+                    operators.Push(element);
+                }
+            }
+
+            while (operators.Count > 0)
+            {
+                double segundoNumero = numbers.Pop();
+                double primerNumero = numbers.Pop();
+                string operador = operators.Pop();
+                double resultadoOperacion = RealizarOperacion(primerNumero, operador, segundoNumero);
+                numbers.Push(resultadoOperacion);
+            }
+
+            return numbers.Pop();
+        }
+
+        public static bool IsNumber(string texto)
+        {
+            double numero;
+            return double.TryParse(texto, out numero);
+        }
+
+        public static double RealizarOperacion(double numero1, string operador, double numero2)
+        {
+            switch (operador)
+            {
+                case "+":
+                    return numero1 + numero2;
+                case "-":
+                    return numero1 - numero2;
+                case "*":
+                    return numero1 * numero2;
+                case "/":
+                    return numero1 / numero2;
+                default:
+                    throw new ArgumentException("Operador inválido");
+            }
+        }
+
+        public static bool HaveMorePriority(string operador1, string operador2)
+        {
+            if ((operador2 == "*" || operador2 == "/") && (operador1 == "+" || operador1 == "-"))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

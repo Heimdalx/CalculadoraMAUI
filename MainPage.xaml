@@ -10,9 +10,17 @@
     </ContentPage.BindingContext>
 
     <StackLayout Padding="20">
-        <Label Text="{Binding CurrentNumber}"
+        <Entry Text="{Binding CurrentOperation}"
+               FontSize="30"
+               IsReadOnly="True"
+               HorizontalTextAlignment="End"
+               VerticalOptions="CenterAndExpand" />
+
+        <Entry Text="{Binding CurrentResult}"
                FontSize="36"
-               HorizontalOptions="End" />
+               IsReadOnly="True"
+               HorizontalTextAlignment="End"
+               VerticalOptions="CenterAndExpand" />
 
         <!-- Botones de números -->
         <Grid ColumnSpacing="10" RowSpacing="10">
@@ -36,16 +44,16 @@
                     Grid.Row="0" Grid.Column="1"/>
             <Button Text="%" Command="{Binding ClearButtonCommand}" CommandParameter="%"
                     Grid.Row="0" Grid.Column="2"/>
-            <Button Text="/" Command="{Binding OperatorButtonCommand}" CommandParameter="÷"
+            <Button Text="/" Command="{Binding OperatorButtonCommand}" CommandParameter="/"
                      Grid.Row="0" Grid.Column="3"/>
-            
+
             <Button Text="7" Command="{Binding NumberButtonCommand}" CommandParameter="7"
                     Grid.Row="1" Grid.Column="0" />
             <Button Text="8" Command="{Binding NumberButtonCommand}" CommandParameter="8"
                     Grid.Row="1" Grid.Column="1" />
             <Button Text="9" Command="{Binding NumberButtonCommand}" CommandParameter="9"
                     Grid.Row="1" Grid.Column="2" />
-            <Button Text="*" Command="{Binding OperatorButtonCommand}" CommandParameter="×"
+            <Button Text="*" Command="{Binding OperatorButtonCommand}" CommandParameter="*"
                      Grid.Row="1" Grid.Column="3"/>
 
             <Button Text="4" Command="{Binding NumberButtonCommand}" CommandParameter="4"
