@@ -1,28 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Calculadora.ViewModels"
              x:Class="Calculadora.MainPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="Padding" Value="10" />
+            </Style>
+
+            <!-- Estilo para las entradas de texto -->
+            <Style TargetType="Label">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="FontFamily" Value="" />
+                <Setter Property="HorizontalTextAlignment" Value="End" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ContentPage.BindingContext>
         <viewModels:CalculatorViewModel />
     </ContentPage.BindingContext>
 
     <StackLayout Padding="20">
-        <Entry Text="{Binding CurrentOperation}"
-               FontSize="30"
-               IsReadOnly="True"
-               HorizontalTextAlignment="End"
-               VerticalOptions="CenterAndExpand" />
+        <Label Text="{Binding CurrentOperation}" FontSize="Subtitle"  Margin="0,150,0,0" />
+        <Label Text="{Binding CurrentResult}"  FontSize="50" FontAttributes="Bold" />
 
-        <Entry Text="{Binding CurrentResult}"
-               FontSize="36"
-               IsReadOnly="True"
-               HorizontalTextAlignment="End"
-               VerticalOptions="CenterAndExpand" />
-
-        <Grid ColumnSpacing="10" RowSpacing="10">
+        <!-- Botones de números -->
+        <Grid ColumnSpacing="3" RowSpacing="3" BackgroundColor="WhiteSmoke" Margin="0,140,0,0" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -38,13 +49,13 @@
             </Grid.ColumnDefinitions>
 
             <Button Text="AC" Command="{Binding ClearButtonCommand}" 
-                    Grid.Row="0" Grid.Column="0"/>
-            <Button Text="borrar" Command="{Binding DeleteButtonCommand}"
-                    Grid.Row="0" Grid.Column="1"/>
-            <Button Text="%" Command="{Binding ClearButtonCommand}" CommandParameter="%"
-                    Grid.Row="0" Grid.Column="2"/>
+                    Grid.Row="0" Grid.Column="0" TextColor="Orange"/>
+            <Button Text="DEL" Command="{Binding DeleteButtonCommand}"
+                    Grid.Row="0" Grid.Column="1" TextColor="Orange"/>
+            <Button Text="%" Command="{Binding PercentButtonCommand}" CommandParameter="%"
+                    Grid.Row="0" Grid.Column="2" TextColor="Orange"/>
             <Button Text="/" Command="{Binding OperatorButtonCommand}" CommandParameter="/"
-                     Grid.Row="0" Grid.Column="3"/>
+                     Grid.Row="0" Grid.Column="3" TextColor="Orange"/>
 
             <Button Text="7" Command="{Binding NumberButtonCommand}" CommandParameter="7"
                     Grid.Row="1" Grid.Column="0" />
@@ -53,7 +64,7 @@
             <Button Text="9" Command="{Binding NumberButtonCommand}" CommandParameter="9"
                     Grid.Row="1" Grid.Column="2" />
             <Button Text="*" Command="{Binding OperatorButtonCommand}" CommandParameter="*"
-                     Grid.Row="1" Grid.Column="3"/>
+                     Grid.Row="1" Grid.Column="3" TextColor="Orange"/>
 
             <Button Text="4" Command="{Binding NumberButtonCommand}" CommandParameter="4"
                     Grid.Row="2" Grid.Column="0" />
@@ -62,7 +73,7 @@
             <Button Text="6" Command="{Binding NumberButtonCommand}" CommandParameter="6"
                     Grid.Row="2" Grid.Column="2" />
             <Button Text="-" Command="{Binding OperatorButtonCommand}" CommandParameter="-"
-                     Grid.Row="2" Grid.Column="3"/>
+                     Grid.Row="2" Grid.Column="3" TextColor="Orange"/>
 
             <Button Text="1" Command="{Binding NumberButtonCommand}" CommandParameter="1"
                     Grid.Row="3" Grid.Column="0" />
@@ -71,15 +82,14 @@
             <Button Text="3" Command="{Binding NumberButtonCommand}" CommandParameter="3"
                     Grid.Row="3" Grid.Column="2" />
             <Button Text="+" Command="{Binding OperatorButtonCommand}" CommandParameter="+"
-                     Grid.Row="3" Grid.Column="3"/>
+                     Grid.Row="3" Grid.Column="3" TextColor="Orange"/>
 
             <Button Text="0" Command="{Binding NumberButtonCommand}" CommandParameter="0"
                     Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"/>
             <Button Text="." Command="{Binding NumberButtonCommand}" CommandParameter="."
                     Grid.Row="4" Grid.Column="2" />
             <Button Text="=" Command="{Binding EqualButtonCommand}"
-                     Grid.Row="4" Grid.Column="3" />
+                     Grid.Row="4" Grid.Column="3" TextColor="Orange" />
         </Grid>
-
     </StackLayout>
 </ContentPage>

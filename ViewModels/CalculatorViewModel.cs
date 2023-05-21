@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using System.Windows.Input;
 
 namespace Calculadora.ViewModels
@@ -34,6 +34,7 @@ namespace Calculadora.ViewModels
         public ICommand EqualButtonCommand { get; }
         public ICommand ClearButtonCommand { get; }
         public ICommand DeleteButtonCommand { get; }
+        public ICommand PercentButtonCommand { get; }
 
         public CalculatorViewModel()
         {
@@ -41,15 +42,29 @@ namespace Calculadora.ViewModels
             OperatorButtonCommand = new Command<string>(OnOperatorButtonClicked);
             EqualButtonCommand = new Command(OnEqualButtonClicked);
             ClearButtonCommand = new Command(OnClearButtonClicked);
+            PercentButtonCommand = new Command<string>(OnPercentButtonClicked);
             DeleteButtonCommand = new Command(OnDeleteButtonClicked);
         }
+        private void OnPercentButtonClicked(string op)
+        {
+
+            if (currentOperation.Split(" ").Length < 3  && op.Equals("%"))
+            {
+                result = double.Parse(currentOperation) / 100;
+                currentResult = result.ToString();
+                CurrentResult = currentResult;
+                currentOperation = "";
+                CurrentOperation = "";
+            }
+        }
+
         private void OnDeleteButtonClicked()
         {
             if (currentOperation == "0")
             {
                 currentOperation = "";
             }
-           
+
             CurrentOperation = currentOperation.Remove(currentOperation.Length - 1);
         }
 
@@ -66,7 +81,7 @@ namespace Calculadora.ViewModels
 
         private void OnOperatorButtonClicked(string op)
         {
-            if (!string.IsNullOrEmpty(currentOperation))
+            if (!string.IsNullOrEmpty(currentOperation) && IsNumber((currentOperation.Split(" ").ToList().Last())))
             {
                 mathSymbol = op;
                 currentOperation += " " + mathSymbol;
@@ -76,10 +91,10 @@ namespace Calculadora.ViewModels
 
         private void OnEqualButtonClicked()
         {
-            if (!string.IsNullOrEmpty(currentOperation))
+            if (!string.IsNullOrEmpty(currentOperation) && !currentOperation.Equals("%") && IsNumber((currentOperation.Split(" ").ToList().Last())) )
             {
                 result = Calculate(currentOperation.Split(" ").ToList());
-             
+
                 currentResult = result.ToString();
                 CurrentResult = currentResult;
                 mathSymbol = "";
@@ -110,11 +125,11 @@ namespace Calculadora.ViewModels
                 {
                     while (operators.Count > 0 && HaveMorePriority(element, operators.Peek()))
                     {
-                        double segundoNumero = numbers.Pop();
-                        double primerNumero = numbers.Pop();
-                        string operador = operators.Pop();
-                        double resultadoOperacion = doOperation(primerNumero, operador, segundoNumero);
-                        numbers.Push(resultadoOperacion);
+                        double secondNumber = numbers.Pop();
+                        double firstNumber = numbers.Pop();
+                        string symbol = operators.Pop();
+                        double operationResult = doOperation(firstNumber, symbol, secondNumber);
+                        numbers.Push(operationResult);
                     }
 
                     operators.Push(element);
