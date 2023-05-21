@@ -21,6 +21,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -29,45 +30,49 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
+            <Button Text="AC" Command="{Binding ClearButtonCommand}" 
+                    Grid.Row="0" Grid.Column="0"/>
+            <Button Text="borrar" Command="{Binding ClearButtonCommand}"
+                    Grid.Row="0" Grid.Column="1"/>
+            <Button Text="%" Command="{Binding ClearButtonCommand}" CommandParameter="%"
+                    Grid.Row="0" Grid.Column="2"/>
+            <Button Text="/" Command="{Binding OperatorButtonCommand}" CommandParameter="÷"
+                     Grid.Row="0" Grid.Column="3"/>
+            
             <Button Text="7" Command="{Binding NumberButtonCommand}" CommandParameter="7"
-                    Grid.Row="0" Grid.Column="0" />
+                    Grid.Row="1" Grid.Column="0" />
             <Button Text="8" Command="{Binding NumberButtonCommand}" CommandParameter="8"
-                    Grid.Row="0" Grid.Column="1" />
+                    Grid.Row="1" Grid.Column="1" />
             <Button Text="9" Command="{Binding NumberButtonCommand}" CommandParameter="9"
-                    Grid.Row="0" Grid.Column="2" />
+                    Grid.Row="1" Grid.Column="2" />
+            <Button Text="*" Command="{Binding OperatorButtonCommand}" CommandParameter="×"
+                     Grid.Row="1" Grid.Column="3"/>
 
             <Button Text="4" Command="{Binding NumberButtonCommand}" CommandParameter="4"
-                    Grid.Row="1" Grid.Column="0" />
+                    Grid.Row="2" Grid.Column="0" />
             <Button Text="5" Command="{Binding NumberButtonCommand}" CommandParameter="5"
-                    Grid.Row="1" Grid.Column="1" />
+                    Grid.Row="2" Grid.Column="1" />
             <Button Text="6" Command="{Binding NumberButtonCommand}" CommandParameter="6"
-                    Grid.Row="1" Grid.Column="2" />
+                    Grid.Row="2" Grid.Column="2" />
+            <Button Text="-" Command="{Binding OperatorButtonCommand}" CommandParameter="-"
+                     Grid.Row="2" Grid.Column="3"/>
 
             <Button Text="1" Command="{Binding NumberButtonCommand}" CommandParameter="1"
-                    Grid.Row="2" Grid.Column="0" />
+                    Grid.Row="3" Grid.Column="0" />
             <Button Text="2" Command="{Binding NumberButtonCommand}" CommandParameter="2"
-                    Grid.Row="2" Grid.Column="1" />
+                    Grid.Row="3" Grid.Column="1" />
             <Button Text="3" Command="{Binding NumberButtonCommand}" CommandParameter="3"
-                    Grid.Row="2" Grid.Column="2" />
+                    Grid.Row="3" Grid.Column="2" />
+            <Button Text="+" Command="{Binding OperatorButtonCommand}" CommandParameter="+"
+                     Grid.Row="3" Grid.Column="3"/>
 
             <Button Text="0" Command="{Binding NumberButtonCommand}" CommandParameter="0"
-                    Grid.Row="3" Grid.Column="0" />
+                    Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"/>
             <Button Text="." Command="{Binding NumberButtonCommand}" CommandParameter="."
-                    Grid.Row="3" Grid.Column="1" />
+                    Grid.Row="4" Grid.Column="2" />
+            <Button Text="=" Command="{Binding EqualButtonCommand}"
+                     Grid.Row="4" Grid.Column="3" />
         </Grid>
 
-        <!-- Botones de operadores y funciones -->
-        <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="Center">
-            <Button Text="+" Command="{Binding OperatorButtonCommand}" CommandParameter="+"/>
-            <Button Text="-" Command="{Binding OperatorButtonCommand}" CommandParameter="-"/>
-            <Button Text="×" Command="{Binding OperatorButtonCommand}" CommandParameter="×"/>
-            <Button Text="÷" Command="{Binding OperatorButtonCommand}" CommandParameter="÷"/>
-        </StackLayout>
-
-        <!-- Botón igual -->
-        <Button Text="=" Command="{Binding EqualButtonCommand}" HorizontalOptions="Center"/>
-
-        <!-- Botón de limpiar -->
-        <Button Text="Clear" Command="{Binding ClearButtonCommand}" HorizontalOptions="Center"/>
     </StackLayout>
 </ContentPage>
