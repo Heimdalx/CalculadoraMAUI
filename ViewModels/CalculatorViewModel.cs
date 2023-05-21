@@ -9,6 +9,7 @@ namespace Calculadora.ViewModels
         private string currentOperation = "";
         private string mathSymbol = "";
         private double result = 0;
+        private Boolean equalTwice;
 
         public string CurrentResult
         {
@@ -55,6 +56,7 @@ namespace Calculadora.ViewModels
                 CurrentResult = currentResult;
                 currentOperation = "";
                 CurrentOperation = "";
+                equalTwice = false;
             }
         }
 
@@ -66,6 +68,7 @@ namespace Calculadora.ViewModels
             }
 
             CurrentOperation = currentOperation.Remove(currentOperation.Length - 1);
+            equalTwice = false;
         }
 
         private void OnNumberButtonClicked(string number)
@@ -76,6 +79,7 @@ namespace Calculadora.ViewModels
             }
             currentOperation += " " + number;
             CurrentOperation = currentOperation;
+            equalTwice = false;
 
         }
 
@@ -86,18 +90,27 @@ namespace Calculadora.ViewModels
                 mathSymbol = op;
                 currentOperation += " " + mathSymbol;
                 CurrentOperation = currentOperation;
+                equalTwice = false;
             }
         }
 
         private void OnEqualButtonClicked()
         {
-            if (!string.IsNullOrEmpty(currentOperation) && !currentOperation.Equals("%") && IsNumber((currentOperation.Split(" ").ToList().Last())) )
+            if (equalTwice)
+            {
+                currentOperation = result.ToString();
+                CurrentOperation = " " + currentOperation;
+                equalTwice= false;
+
+            }
+            else  if ((currentOperation.Split(" ").Length > 2 && !currentOperation.Equals("%") && IsNumber((currentOperation.Split(" ").ToList().Last()))))
             {
                 result = Calculate(currentOperation.Split(" ").ToList());
 
                 currentResult = result.ToString();
                 CurrentResult = currentResult;
                 mathSymbol = "";
+                equalTwice = true;
             }
         }
 
@@ -108,6 +121,7 @@ namespace Calculadora.ViewModels
             result = 0;
             CurrentResult = "0";
             CurrentOperation = "";
+            equalTwice = false;
         }
 
         private static double Calculate(List<string> operation)

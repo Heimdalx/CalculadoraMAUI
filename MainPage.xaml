@@ -15,7 +15,6 @@
                 <Setter Property="Padding" Value="10" />
             </Style>
 
-            <!-- Estilo para las entradas de texto -->
             <Style TargetType="Label">
                 <Setter Property="BackgroundColor" Value="White" />
                 <Setter Property="FontFamily" Value="" />
